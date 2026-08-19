@@ -1,0 +1,41 @@
+services:
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - ./api/.env.local
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=2048
+    depends_on:
+      - dynamodb-local
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-dev}
+    env_file:
+      - ./frontend/.env.local
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend_node_modules:/app/frontend/node_modules
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=2048
+    ports:
+      - "5173:5173"
+
+volumes:
+  frontend_node_modules:

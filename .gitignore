@@ -1,0 +1,14 @@
+docker/*
+iac/.terraform*
+iac/terraform.tfstate
+iac/terraform.tfstate.backup
+*.tfvars
+.env.local
+.env.production
+.envrc
+.env
+deploy.sh
+lambda/
+lambda.zip
+
+docs.txt

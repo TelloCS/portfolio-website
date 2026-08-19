@@ -1,0 +1,7 @@
+bucket_name         = ""
+domain_name         = ""
+acm_certificate_arn = ""
+contact_table_name  = ""
+notification_email  = ""
+environment         = ""
+cloudfront_domain   = ""
